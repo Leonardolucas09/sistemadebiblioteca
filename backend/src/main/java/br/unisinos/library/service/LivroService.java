@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.unisinos.library.entity.Categoria;
 import br.unisinos.library.entity.Livro;
+import br.unisinos.library.repository.CategoriaRepository;
 import br.unisinos.library.repository.LivroRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -14,8 +16,29 @@ import lombok.RequiredArgsConstructor;
 public class LivroService {
 
     private final LivroRepository livroRepository;
+    private final CategoriaRepository categoriaRepository;
 
     public Livro salvar(Livro livro) {
+
+        if (livro.getCategoria() == null && livro.getCategoria().getId() == null) {
+            throw new RuntimeException("Categoria é obrigatória");
+        }
+            Categoria categoria = categoriaRepository.findById(livro.getCategoria().getId()).orElseThrow(() -> new RuntimeException("Categoria não encontrada com id " + livro.getCategoria().getId()));
+        
+            livro.setCategoria(categoria);
+            return livroRepository.save(livro);
+    }
+    
+    public Livro atualizar(Long id, Livro livroAtualizado) {
+        Livro livro = livroRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Livro não encontrado"));
+
+        livro.setTitulo(livroAtualizado.getTitulo());
+        livro.setNomeAutor(livroAtualizado.getNomeAutor());
+        livro.setEditora(livroAtualizado.getEditora());
+        livro.setNumeroPaginas(livroAtualizado.getNumeroPaginas());
+        livro.setIsbn(livroAtualizado.getIsbn());
+
         return livroRepository.save(livro);
     }
 
