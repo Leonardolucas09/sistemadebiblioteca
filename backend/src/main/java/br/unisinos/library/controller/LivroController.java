@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.unisinos.library.entity.Livro;
 import br.unisinos.library.service.LivroService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController
@@ -27,9 +30,16 @@ public class LivroController {
     private final LivroService livroService;
 
     @PostMapping
-    public ResponseEntity<Livro> salvar (@RequestBody Livro livro) {
+    public ResponseEntity<Livro> salvar (@Valid @RequestBody Livro livro) {
         Livro livroSalvo = livroService.salvar(livro);
         return ResponseEntity.ok(livroSalvo);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Livro> atualizar (@Valid @PathVariable Long id, @RequestBody Livro livro) {
+        Livro livroAtualizado = livroService.atualizar(id, livro);
+        
+        return ResponseEntity.ok(livroAtualizado);
     }
 
     @GetMapping
