@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.unisinos.library.entity.Categoria;
+import br.unisinos.library.exception.RecursoNaoEncontradoException;
+import br.unisinos.library.exception.RegraLibraryException;
 import br.unisinos.library.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -28,13 +30,13 @@ public class CategoriaService {
     }
 
     public Categoria atualizar (Long id, Categoria categoriaAtualizada) {
-        Categoria categoria = buscarPorId(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada pelo id " + id));
+        Categoria categoria = buscarPorId(id).orElseThrow(() -> new RecursoNaoEncontradoException("Categoria não encontrada pelo id " + id));
         categoria.setNome(categoriaAtualizada.getNome());
         return categoriaRepository.save(categoria);
     }
 
     public void excluir (Long id) {
-        Categoria categoria = buscarPorId(id).orElseThrow(() -> new RuntimeException("Categoria não encontrada pelo id " + id));
+        Categoria categoria = buscarPorId(id).orElseThrow(() -> new RecursoNaoEncontradoException("Categoria não encontrada pelo id " + id));
         categoriaRepository.delete(categoria);
     }
 
