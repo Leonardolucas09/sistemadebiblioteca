@@ -1,6 +1,6 @@
 package br.unisinos.library.entity;
 
-import java.math.BigDecimal;
+// import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -11,8 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+// import jakarta.validation.constraints.NotNull;
+// import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
