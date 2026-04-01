@@ -1,6 +1,6 @@
 package br.unisinos.library.entity;
 
-import java.math.BigDecimal;
+// import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+// import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
