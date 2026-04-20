@@ -26,15 +26,15 @@ public class Usuario {
     private Long id;
 
     @NotBlank
-    @Column(nullable = false, length = 100);
+    @Column(nullable = false, length = 100)
     private String nome;
 
     @NotBlank
-    @Column(nullable = false, length = 100);
+    @Column(nullable = false, length = 100)
     private String email;
     
     @NotBlank
-    @Column(nullable = false, length = 100);
+    @Column(nullable = false, length = 100)
     private String senha;
 
 

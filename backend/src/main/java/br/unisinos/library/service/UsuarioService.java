@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import br.unisinos.library.entity.Usuario;
 import br.unisinos.library.repository.UsuarioRepository;
-import br.unisinos.library.exception.UsuarioNaoEncontradoException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -48,6 +47,11 @@ public class UsuarioService {
 
     public Optional<Usuario> buscarUsuarioPorId(Long id) {
         return usuarioRepository.findById(id);
+    }
+
+    public Usuario salvar(Usuario usuario) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'salvar'");
     }
 
 }

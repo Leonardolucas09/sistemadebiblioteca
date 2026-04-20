@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.unisinos.library.entity.Categoria;
 import br.unisinos.library.exception.RecursoNaoEncontradoException;
-import br.unisinos.library.exception.RegraLibraryException;
+// import br.unisinos.library.exception.RegraLibraryException;
 import br.unisinos.library.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
 
