@@ -7,8 +7,6 @@ import org.springframework.stereotype.Service;
 
 import br.unisinos.library.entity.Usuario;
 import br.unisinos.library.repository.UsuarioRepository;
-import jakarta.validation.Valid;
-// import br.unisinos.library.exception.UsuarioNaoEncontradoException;
 import lombok.RequiredArgsConstructor;
 
 @Service
