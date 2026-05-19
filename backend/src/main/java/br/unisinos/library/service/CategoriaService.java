@@ -5,9 +5,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.unisinos.library.dto.CategoriaRequestDTO;
+import br.unisinos.library.dto.CategoriaResponseDTO;
 import br.unisinos.library.entity.Categoria;
 import br.unisinos.library.exception.RecursoNaoEncontradoException;
-// import br.unisinos.library.exception.RegraLibraryException;
 import br.unisinos.library.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +18,18 @@ public class CategoriaService {
     
     private final CategoriaRepository categoriaRepository;
 
-    public Categoria salvar (Categoria categoria) {
-        return categoriaRepository.save(categoria);
+    public CategoriaResponseDTO salvar (CategoriaRequestDTO categoriaDTO) {
+        Categoria categoria = Categoria.builder()
+                                        .nome(categoriaDTO.nome())
+                                        .build();
+
+        return toResponseDTO(categoriaRepository.save(categoria));
+    }
+
+    private CategoriaResponseDTO toResponseDTO(Categoria categoria) {
+        return new CategoriaResponseDTO(
+            categoria.getId(),
+            categoria.getNome());
     }
 
     public List<Categoria> listarTodas() {

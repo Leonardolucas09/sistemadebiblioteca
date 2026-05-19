@@ -17,11 +17,12 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
         """
             select l
             from Livro l
-            where (:titulo is null or lower(l.titulo) like lower(concat('%', :titulo, '%')))
-            and (:categoriaId is null or l.categoria.id = :categoriaId)    
+            where (:titulo is null or l.titulo ilike concat('%', :titulo, '%'))
+            and (:categoriaId is null or l.categoria.id = :categoriaId)
+            and (:nomeAutor is null or l.nomeAutor ilike concat('%', :nomeAutor, '%'))
         """
     )
-    Page<Livro> buscarComFiltros (String titulo, Long categoriaId, Pageable pageable);
+    List<Livro> buscarComFiltros (String titulo, Long categoriaId, String nomeAutor);
 
     @Query(
         """
@@ -31,5 +32,18 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
             group by c.nome
         """)
     List<LivroPorCategoriaProjection> relatorioLivrosPorCategoria();
+
+    @Query(
+        """
+            select l.nomeAutor as autor, count(l) as quantidade
+            from Livro l
+            group by l.nomeAutor
+            order by quantidade desc 
+        
+        """
+    )
+    List<LivroPorAutorProjection> relatorioLivrosPorAutor();
+
+    List<Livro> findByNomeAutorContainingIgnoreCase(String nomeAutor);
 
 }
