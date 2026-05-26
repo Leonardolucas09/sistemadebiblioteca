@@ -3,6 +3,7 @@ import { ref } from "vue";
 import BarraLateral from "./components/BarraLateral.vue";
 import Cabecalho from "./components/Cabecalho.vue";
 import TabelaLivros from "./components/TabelaLivros.vue";
+import Emprestimos from "./components/Emprestimos.vue";
 
 const sidebarAberta = ref(false);
 
@@ -22,5 +23,6 @@ const fecharSidebar = () => {
     @toggle="toggleSidebar"
     @close="fecharSidebar"
   />
-  <TabelaLivros/>
+  <!-- <TabelaLivros/> -->
+  <Emprestimos/>
 </template>
