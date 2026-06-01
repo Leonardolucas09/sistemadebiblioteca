@@ -9,6 +9,10 @@
             <img :src="bookByteLogo" alt="BookByte Logo" class="logo" />
         </span>
 
+        <h2>
+            {{ title }}
+        </h2>
+
         <div class="flex justify-end items-center gap-4">
             <h2 class="text-white item-center font-semibold text-lg">
                 Olá, Fulano

@@ -1,7 +1,22 @@
 <script setup>
 import { ref } from 'vue'
+import Cabecalho from '../components/Cabecalho.vue'
+import BarraLateral from '../components/BarraLateral.vue'
+
+defineEmits(['navigate']);
 
 const livroAberto = ref(null)
+
+
+const sidebarAberta = ref(false);
+
+const toggleSidebar = () => {
+    sidebarAberta.value = !sidebarAberta.value;
+};
+
+const fecharSidebar = () => {
+    sidebarAberta.value = false;
+};
 
 const livros = [
     {
@@ -43,6 +58,19 @@ function abrirLivro(id) {
 </script>
 
 <template>
+    <Cabecalho />
+    <BarraLateral
+        :isOpen="sidebarAberta"
+        @toggle="toggleSidebar"
+        @close="fecharSidebar"
+        @navigate="($event) => $emit('navigate', $event)"
+
+    />
+
+    <h2 class="text-3xl text-white font-bold mt-3 text-center">
+        Empréstimos
+    </h2>
+
     <div class="overflow-x-auto rounded-2xl" style="max-height: 70vh;">
         <table class="table-auto border-collapse border border-white rounded-md text-white mx-auto mt-10">
             <thead class="sticky top-0 bg-black">

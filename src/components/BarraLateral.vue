@@ -1,12 +1,14 @@
 <script setup>
 import Filtros from './Filtros.vue';
-import InputBuscarLivros from './InputBuscarLivros.vue'
+import InputBuscarLivros from './InputBuscarLivros.vue';
+import AdicionarLivro from './AdicionarLivro.vue';
+import { ref, computed } from "vue";
 
 defineProps({
     isOpen: Boolean
 });
 
-const emit = defineEmits(['toggle', 'close']);
+const emit = defineEmits(['toggle', 'close', 'navigate']);
 
 const handleToggle = () => {
     emit('toggle');
@@ -15,6 +17,16 @@ const handleToggle = () => {
 const handleClose = () => {
     emit('close');
 };
+
+const goToTabelaLivros = () => {
+    emit('navigate', '');
+};
+
+const goToEmprestimos = () => {
+    emit('navigate', 'emprestimos');
+};
+
+
 </script>
 
 <template>
@@ -27,7 +39,8 @@ const handleClose = () => {
                     stroke-linecap="round" />
             </svg>
         </div>
-        <div class="flex gap-12">
+        <div class="flex items-center gap-12">
+            <AdicionarLivro/>
             <InputBuscarLivros />
             <Filtros />
         </div>
@@ -42,7 +55,7 @@ const handleClose = () => {
         <nav class="slide-nav">
             <ul class="flex flex-col gap-8">
                 <li>
-                    <a href="">
+                    <a @click="goToTabelaLivros" class="cursor-pointer">
                         <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -59,7 +72,7 @@ const handleClose = () => {
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a @click="goToEmprestimos" class="cursor-pointer">
                         <svg fill="#FFF" width="30px" height="30px" viewBox="0 -64 640 640"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
