@@ -1,28 +1,24 @@
 <script setup>
-import { ref } from "vue";
-import BarraLateral from "./components/BarraLateral.vue";
-import Cabecalho from "./components/Cabecalho.vue";
-import TabelaLivros from "./components/TabelaLivros.vue";
-import Emprestimos from "./components/Emprestimos.vue";
+import { ref, computed } from "vue";
+import TabelaLivros from "./Pages/TabelaLivros.vue";
+import Emprestimos from "./Pages/Emprestimos.vue";
 
-const sidebarAberta = ref(false);
+const routes = {
+  "": TabelaLivros,
+  "emprestimos": Emprestimos,
+}
 
-const toggleSidebar = () => {
-  sidebarAberta.value = !sidebarAberta.value;
-};
+  const currentRoute = ref("");
 
-const fecharSidebar = () => {
-  sidebarAberta.value = false;
-};
+  const navigate = (path) => {
+    currentRoute.value = path;
+  }
+
+  const currentView = computed(() => {
+    return routes[currentRoute.value] || TabelaLivros;
+  });
 </script>
 
 <template>
-  <Cabecalho />
-  <BarraLateral
-    :isOpen="sidebarAberta"
-    @toggle="toggleSidebar"
-    @close="fecharSidebar"
-  />
-  <!-- <TabelaLivros/> -->
-  <Emprestimos/>
+    <component :is="currentView" @navigate="navigate" />
 </template>
