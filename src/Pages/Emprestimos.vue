@@ -61,6 +61,7 @@ function abrirLivro(id) {
     <Cabecalho />
     <BarraLateral
         :isOpen="sidebarAberta"
+        :isUsable="true"
         @toggle="toggleSidebar"
         @close="fecharSidebar"
         @navigate="($event) => $emit('navigate', $event)"
