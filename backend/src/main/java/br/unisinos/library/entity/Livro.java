@@ -1,5 +1,8 @@
 package br.unisinos.library.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -11,6 +14,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 // import jakarta.validation.constraints.NotNull;
@@ -44,11 +49,6 @@ public class Livro {
     @Column(nullable = false, length = 100)
     private String titulo;
 
-    //nome do autor, outra coluna, não pode ser nulo (caso o livro não tenha autor, deve ser inserido "Sem autoria")
-    @NotBlank
-    @Column(nullable = false, length = 100)
-    private String nomeAutor;
-
     //ainda não sei se vou deixar a editora como nullable=false, pois alguns livros não fornecem informações de edição
     @NotBlank
     @Column(nullable = false, length = 50)
@@ -67,7 +67,12 @@ public class Livro {
 
     //chave estrangeira da categoria
     @ManyToOne
-    @JoinColumn(name = "id_categoria", nullable = true, foreignKey = @ForeignKey(name = "fk_produto_categoria"))
+    @JoinColumn(name = "id_categoria", nullable = true, foreignKey = @ForeignKey(name = "fk_livro_categoria"))
     @JsonBackReference
     private Categoria categoria;
+
+    @ManyToOne
+    @JoinColumn(name = "id_autor", nullable = true, foreignKey = @ForeignKey(name = "fk_livro_autor"))
+    @JsonBackReference
+    private Autor autor;
 }
