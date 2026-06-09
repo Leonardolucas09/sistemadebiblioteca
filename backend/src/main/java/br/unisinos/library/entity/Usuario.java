@@ -5,7 +5,6 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -17,23 +16,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "categoria")
+@Table(name = "usuario")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 
-public class Categoria {
-    
+
+public class Usuario {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    @NotBlank(message = "O nome da categoria é obrigatório")
+    @NotBlank(message = "O nome do(a) usuário(a) é obrigatório")
     @Column(nullable = false, length = 100)
     private String nome;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Livro> livros;
+    @OneToMany(mappedBy = "usuario")
+    private List<Emprestimo> emprestimos;
 }

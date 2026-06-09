@@ -4,19 +4,21 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.unisinos.library.dto.CategoriaRequestDTO;
+import br.unisinos.library.dto.CategoriaResponseDTO;
 import br.unisinos.library.entity.Categoria;
 import br.unisinos.library.service.CategoriaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/categorias")
@@ -26,8 +28,8 @@ public class CategoriaController {
     private final CategoriaService categoriaService;
 
     @PostMapping
-    public ResponseEntity salvar(@Valid @RequestBody Categoria categoria) {
-        Categoria categoriaSalvo = categoriaService.salvar(categoria);
+    public ResponseEntity<CategoriaResponseDTO> salvar(@Valid @RequestBody CategoriaRequestDTO categoriaDTO) {
+        CategoriaResponseDTO categoriaSalvo = categoriaService.salvar(categoriaDTO);
         return ResponseEntity.ok(categoriaSalvo);
     }
 
