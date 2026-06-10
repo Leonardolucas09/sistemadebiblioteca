@@ -46,6 +46,10 @@ public class AutorService {
         return autorRepository.save(autor);
     }
 
+    public Optional <Autor> buscarPorNome(String nome) {
+        return autorRepository.findByNome(nome);
+    }
+
     public void excluir (Long id) {
         Autor autor = buscarPorId(id).orElseThrow(() -> new RecursoNaoEncontradoException("Autor não encontrado pelo id " + id));
         autorRepository.delete(autor);

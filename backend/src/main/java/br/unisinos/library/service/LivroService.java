@@ -31,7 +31,7 @@ public class LivroService {
 
     public LivroResponseDTO salvar (LivroRequestDTO livroDTO) {
         Categoria categoria = buscarCategoria(livroDTO.categoriaId());
-        Autor autor = buscarAutor(livroDTO.autorId());
+        Autor autor = buscarAutor(livroDTO.autorNome());
         Livro livro = Livro.builder()
                         .titulo(livroDTO.titulo())
                         .editora(livroDTO.editora())
@@ -75,11 +75,11 @@ public class LivroService {
         return categoriaRepository.findById(categoriaId).orElseThrow(() -> new RecursoNaoEncontradoException("Categoria não encontrada com o id: " + categoriaId));
     }
 
-    private Autor buscarAutor(Long autorId) {
-        if (autorId == null) {
+    private Autor buscarAutor(String autorNome) {
+        if (autorNome == null || autorNome.isBlank()) {
             throw new RegraLibraryException("O autor do exemplar é obrigatório"); 
         }
-        return autorRepository.findById(autorId).orElseThrow(() -> new RecursoNaoEncontradoException("Autor não encontrado com o id: " + autorId));
+        return autorRepository.findByNome(autorNome).orElseThrow(() -> new RecursoNaoEncontradoException("Autor não encontrado com o nome: " + autorNome));
     }
 
 
