@@ -9,15 +9,15 @@ public record LivroRequestDTO (
     String titulo,
 
     @NotBlank
-    String nomeAutor,
-
-    @NotBlank
     String editora,
 
     @NotBlank
     String numeroPaginas,
 
     Long isbn,
+
+    @NotBlank
+    String autorNome,
 
     @NotNull
     Long categoriaId

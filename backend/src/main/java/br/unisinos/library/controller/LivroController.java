@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.unisinos.library.dto.LivroRequestDTO;
 import br.unisinos.library.dto.LivroResponseDTO;
 import br.unisinos.library.entity.Livro;
-import br.unisinos.library.repository.LivroPorAutorProjection;
+//import br.unisinos.library.repository.LivroPorAutorProjection;
 import br.unisinos.library.repository.LivroPorCategoriaProjection;
 import br.unisinos.library.service.LivroService;
 import jakarta.validation.Valid;
@@ -53,7 +53,7 @@ public class LivroController {
     }
 
     @GetMapping("/{id:\\d+}")
-    public ResponseEntity<Livro> buscarPorID(@PathVariable Long id) {
+    public ResponseEntity<Livro> buscarPorId(@PathVariable Long id) {
         
         Optional<Livro> livro = livroService.buscarPorId(id);
 
@@ -85,10 +85,9 @@ public class LivroController {
     @GetMapping
     public ResponseEntity<List<Livro>> buscar(
         @RequestParam(required = false) String nome,
-        @RequestParam(required = false) Long categoriaId,
-        @RequestParam(required = false) String nomeAutor)    
+        @RequestParam(required = false) Long categoriaId)    
     {
-        return ResponseEntity.ok(livroService.buscar(nome, categoriaId, nomeAutor));
+        return ResponseEntity.ok(livroService.buscar(nome, categoriaId));
     }
     
     @GetMapping("/relatorio/por-categoria")
@@ -96,17 +95,17 @@ public class LivroController {
         return ResponseEntity.ok(livroService.relatorioLivrosPorCategoria());
     }
 
-    @GetMapping("/porAutor")    
-    public ResponseEntity<List<Livro>> buscarPorAutor(
-        @RequestParam String nomeAutor
-    ) {
-        return ResponseEntity.ok(livroService.buscarPorAutor(nomeAutor));
-    }
+    // @GetMapping("/porAutor")    
+    // public ResponseEntity<List<Livro>> buscarPorAutor(
+    //     @RequestParam String nomeAutor
+    // ) {
+    //     return ResponseEntity.ok(livroService.buscarPorAutor(nomeAutor));
+    // }
 
-    @GetMapping("relatorio/por-autor")
-    public ResponseEntity<List<LivroPorAutorProjection>> relatorioLivrosPorAutor() {
-        return ResponseEntity.ok(livroService.relatorioLivrosPorAutor());
-    }
+    // @GetMapping("relatorio/por-autor")
+    // public ResponseEntity<List<LivroPorAutorProjection>> relatorioLivrosPorAutor() {
+    //     return ResponseEntity.ok(livroService.relatorioLivrosPorAutor());
+    // }
     
     
     

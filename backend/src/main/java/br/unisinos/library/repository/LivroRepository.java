@@ -2,8 +2,6 @@ package br.unisinos.library.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,10 +17,9 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
             from Livro l
             where (:titulo is null or l.titulo ilike concat('%', :titulo, '%'))
             and (:categoriaId is null or l.categoria.id = :categoriaId)
-            and (:nomeAutor is null or l.nomeAutor ilike concat('%', :nomeAutor, '%'))
         """
     )
-    List<Livro> buscarComFiltros (String titulo, Long categoriaId, String nomeAutor);
+    List<Livro> buscarComFiltros (String titulo, Long categoriaId);
 
     @Query(
         """
@@ -33,17 +30,17 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
         """)
     List<LivroPorCategoriaProjection> relatorioLivrosPorCategoria();
 
-    @Query(
-        """
-            select l.nomeAutor as autor, count(l) as quantidade
-            from Livro l
-            group by l.nomeAutor
-            order by quantidade desc 
+    // @Query(
+    //     """
+    //         select l.nomeAutor as autor, count(l) as quantidade
+    //         from Livro l
+    //         group by l.nomeAutor
+    //         order by quantidade desc 
         
-        """
-    )
-    List<LivroPorAutorProjection> relatorioLivrosPorAutor();
+    //     """
+    // )
+    // List<LivroPorAutorProjection> relatorioLivrosPorAutor();
 
-    List<Livro> findByNomeAutorContainingIgnoreCase(String nomeAutor);
+    // List<Livro> findByNomeAutorContainingIgnoreCase(String nomeAutor);
 
 }

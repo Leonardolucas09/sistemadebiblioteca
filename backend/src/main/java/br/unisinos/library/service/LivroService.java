@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import br.unisinos.library.dto.LivroRequestDTO;
 import br.unisinos.library.dto.LivroResponseDTO;
+import br.unisinos.library.entity.Autor;
 import br.unisinos.library.entity.Categoria;
 import br.unisinos.library.entity.Livro;
 import br.unisinos.library.exception.RecursoNaoEncontradoException;
 import br.unisinos.library.exception.RegraLibraryException;
+import br.unisinos.library.repository.AutorRepository;
 import br.unisinos.library.repository.CategoriaRepository;
 import br.unisinos.library.repository.LivroPorAutorProjection;
 import br.unisinos.library.repository.LivroPorCategoriaProjection;
@@ -25,15 +27,17 @@ public class LivroService {
 
     private final LivroRepository livroRepository;
     private final CategoriaRepository categoriaRepository;
+    private final AutorRepository autorRepository;
 
     public LivroResponseDTO salvar (LivroRequestDTO livroDTO) {
         Categoria categoria = buscarCategoria(livroDTO.categoriaId());
+        Autor autor = buscarAutor(livroDTO.autorNome());
         Livro livro = Livro.builder()
                         .titulo(livroDTO.titulo())
-                        .nomeAutor(livroDTO.nomeAutor())
                         .editora(livroDTO.editora())
                         .numeroPaginas(livroDTO.numeroPaginas())
                         .isbn(livroDTO.isbn())
+                        .autor(autor)
                         .categoria(categoria)
                         .build();
         return toResponseDTO(livroRepository.save(livro));
@@ -43,10 +47,11 @@ public class LivroService {
         return new LivroResponseDTO(
             livro.getId(),
             livro.getTitulo(),
-            livro.getNomeAutor(),
             livro.getEditora(),
             livro.getNumeroPaginas(),
             livro.getIsbn(),
+            livro.getAutor() != null ? livro.getAutor().getId() : null,
+            livro.getAutor() != null ? livro.getAutor().getNome() : null,
             livro.getCategoria() != null ? livro.getCategoria().getId() : null,
             livro.getCategoria() != null ? livro.getCategoria().getNome() : null);
     }
@@ -56,7 +61,6 @@ public class LivroService {
         .orElseThrow(() -> new RegraLibraryException("Livro não encontrado"));
 
         livro.setTitulo(livroAtualizado.getTitulo());
-        livro.setNomeAutor(livroAtualizado.getNomeAutor());
         livro.setEditora(livroAtualizado.getEditora());
         livro.setNumeroPaginas(livroAtualizado.getNumeroPaginas());
         livro.setIsbn(livroAtualizado.getIsbn());
@@ -71,6 +75,14 @@ public class LivroService {
         return categoriaRepository.findById(categoriaId).orElseThrow(() -> new RecursoNaoEncontradoException("Categoria não encontrada com o id: " + categoriaId));
     }
 
+    private Autor buscarAutor(String autorNome) {
+        if (autorNome == null || autorNome.isBlank()) {
+            throw new RegraLibraryException("O autor do exemplar é obrigatório"); 
+        }
+        return autorRepository.findByNome(autorNome).orElseThrow(() -> new RecursoNaoEncontradoException("Autor não encontrado com o nome: " + autorNome));
+    }
+
+
     public List<Livro> listarTodos() {
         return livroRepository.findAll();
     }
@@ -83,18 +95,25 @@ public class LivroService {
         livroRepository.deleteById(id);
     }
 
-    public List<Livro> buscar(String nome, Long categoriaId, String nomeAutor) {
-        return livroRepository.buscarComFiltros(nome, categoriaId, nomeAutor);
+    public List<Livro> buscar(String nome, Long categoriaId) {
+        return livroRepository.buscarComFiltros(nome, categoriaId);
     }
 
     public List<LivroPorCategoriaProjection> relatorioLivrosPorCategoria() {
         return livroRepository.relatorioLivrosPorCategoria();
     }
 
-    public List<LivroPorAutorProjection> relatorioLivrosPorAutor() {
-        return livroRepository.relatorioLivrosPorAutor();
-    }
+    // Estou comentando essa parte do código pois mudei consideravelmente o jeito que funciona os autores do projeto.
+    // Agora, Autor é uma classe, não apenas um parâmetro de texto
 
+    // public List<LivroPorAutorProjection> relatorioLivrosPorAutor() {
+    //     return livroRepository.relatorioLivrosPorAutor();
+    // }
+
+
+    // public List<Livro> buscarPorAutor(String nomeAutor) {
+    //     return livroRepository.findByNomeAutorContainingIgnoreCase(nomeAutor);
+    // }
 
     public List<Livro> buscarPorAutor(String nomeAutor) {
         return livroRepository.findByNomeAutorContainingIgnoreCase(nomeAutor);

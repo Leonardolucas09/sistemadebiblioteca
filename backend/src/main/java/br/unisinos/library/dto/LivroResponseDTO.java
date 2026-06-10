@@ -4,10 +4,11 @@ public record LivroResponseDTO (
 
     Long id,
     String titulo,
-    String nomeAutor,
     String editora,
     String numeroPaginas,
     Long isbn,
+    Long autorId,
+    String nomeAutor,
     Long categoriaId,
     String nomeCategoria
 
