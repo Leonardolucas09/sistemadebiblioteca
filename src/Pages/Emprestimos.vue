@@ -1,7 +1,15 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Cabecalho from '../components/Cabecalho.vue'
 import BarraLateral from '../components/BarraLateral.vue'
+import { listarLivros } from '../services/livroService.js';
+
+defineProps({
+    livro: {
+        type: Object,
+        required: true
+    }
+});
 
 defineEmits(['navigate']);
 
@@ -18,59 +26,64 @@ const fecharSidebar = () => {
     sidebarAberta.value = false;
 };
 
-const livros = [
-    {
-        id: 1,
-        titulo: 'Duna',
-        autor: 'Frank Herbert',
-        editora: 'Intrinseca',
-        paginas: 659,
-        data: 1966,
-        estoque: 'Sim',
-        categoria: 'Livro',
-        copias: [
-            'Cópia 01',
-            'Cópia 02',
-            'Cópia 03'
-        ]
-    },
-
-    {
-        id: 2,
-        titulo: 'Harry Potter e a Pedra Filosofal',
-        autor: 'Jk Rowling',
-        editora: 'Intrinseca',
-        paginas: 101,
-        data: 1982,
-        estoque: 'Não',
-        categoria: 'Livro',
-        copias: [
-            'Cópia A',
-            'Cópia B'
-        ]
-    }
-]
-
 function abrirLivro(id) {
     livroAberto.value =
         livroAberto.value === id ? null : id
 }
+
+const livros = ref([])
+const carregando = ref(false)
+const erro = ref('')
+
+async function carregarLivros() {
+    carregando.value = true
+    erro.value = ''
+
+    try {
+        livros.value = await listarLivros()
+    } catch (error) {
+        erro.value = 'Erro ao carregar os livros. Por favor. Verifique se o backend está no ar.'
+        console.error(error)
+    } finally {
+        carregando.value = false
+    }
+}
+onMounted(() => {
+    carregarLivros()
+})
 </script>
 
 <template>
     <Cabecalho />
     <BarraLateral
         :isOpen="sidebarAberta"
+        :isUsable="true"
         @toggle="toggleSidebar"
         @close="fecharSidebar"
         @navigate="($event) => $emit('navigate', $event)"
 
     />
 
-    <h2 class="text-3xl text-white font-bold mt-3 text-center">
-        Empréstimos
-    </h2>
+    <section>
+        <h2 class="text-3xl text-white font-bold mt-3 text-center">
+            Empréstimos
+        </h2>
+        <button type="button" @click="carregarLivros"
+            class="block mx-auto mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+            Recarregar Livros
+        </button>
+    </section>
 
+     <p v-if="carregando" class="text-center text-white mt-4">
+        Carregando livros...
+    </p>
+    <p v-else-if="erro" class="text-center text-red-500 mt-4">
+        {{ erro }}
+    </p>
+    <p v-else-if="livros.length === 0" class="text-center text-white mt-4">
+        Nenhum livro encontrado.
+    </p>
+        
     <div class="overflow-x-auto rounded-2xl" style="max-height: 70vh;">
         <table class="table-auto border-collapse border border-white rounded-md text-white mx-auto mt-10">
             <thead class="sticky top-0 bg-black">

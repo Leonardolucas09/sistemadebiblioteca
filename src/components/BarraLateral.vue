@@ -5,7 +5,8 @@ import AdicionarLivro from './AdicionarLivro.vue';
 import { ref, computed } from "vue";
 
 defineProps({
-    isOpen: Boolean
+    isOpen: Boolean,
+    isUsable: Boolean
 });
 
 const emit = defineEmits(['toggle', 'close', 'navigate']);
@@ -26,6 +27,9 @@ const goToEmprestimos = () => {
     emit('navigate', 'emprestimos');
 };
 
+const goToMeuPerfil = () => {
+    emit('navigate', 'meuPerfil');
+};
 
 </script>
 
@@ -40,9 +44,9 @@ const goToEmprestimos = () => {
             </svg>
         </div>
         <div class="flex items-center gap-12">
-            <AdicionarLivro/>
-            <InputBuscarLivros />
-            <Filtros />
+            <AdicionarLivro v-if="isUsable"/>
+            <InputBuscarLivros v-if="isUsable"/>
+            <Filtros v-if="isUsable"/>
         </div>
     </div>
 
@@ -82,7 +86,7 @@ const goToEmprestimos = () => {
                     </a>
                 </li>
                 <li>
-                    <a href="">
+                    <a @click="goToMeuPerfil" class="cursor-pointer">
                         <svg width="30px" height="30px" viewBox="0 0 20 20" version="1.1"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
