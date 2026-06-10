@@ -16,6 +16,9 @@ public record LivroRequestDTO (
 
     Long isbn,
 
+    @NotBlank
+    String autorNome,
+
     @NotNull
     Long autorId,
 
