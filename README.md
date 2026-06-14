@@ -41,17 +41,7 @@ Antes de executar o projeto, certifique-se de ter instalado:
 
 ### Backend
 
-#### 1. Configurar o Banco de Dados
-
-```bash
-# Acesse o PostgreSQL
-psql -U postgres
-
-# Crie o banco de dados (ou use o padrão 'postgres')
-CREATE DATABASE biblioteca;
-```
-
-#### 2. Executar o Backend
+#### 1. Executar o Backend
 
 ```bash
 # Navegue até a pasta do backend
