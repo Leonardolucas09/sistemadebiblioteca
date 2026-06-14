@@ -43,17 +43,17 @@ Antes de executar o projeto, certifique-se de ter instalado:
 
 #### 1. Configurar o Banco de Dados
 
-bash
+```bash
 # Acesse o PostgreSQL
 psql -U postgres
 
 # Crie o banco de dados (ou use o padrão 'postgres')
 CREATE DATABASE biblioteca;
-
+```
 
 #### 2. Executar o Backend
 
-bash
+```bash
 # Navegue até a pasta do backend
 cd backend
 
@@ -83,21 +83,21 @@ backend/src/main/resources/application.properties
 
 #### 1. Instalar Dependências
 
-bash
+```bash
 # Navegue até a pasta do frontend
 cd frontend
 
 # Instale as dependências
 npm install
-
+```
 
 #### 2. Configurar a URL do Backend
 
-A URL base do backend é definida pela variável de ambiente *VITE_API_URL*. 
+A URL base do backend é definida pela variável de ambiente **`VITE_API_URL`**. 
 
-Para usar a URL padrão (http://localhost:8082), nenhuma configuração adicional é necessária. Se desejar customizar:
+Para usar a URL padrão (`http://localhost:8082`), nenhuma configuração adicional é necessária. Se desejar customizar:
 
-bash
+```bash
 # No Windows (PowerShell)
 $env:VITE_API_URL="http://seu-backend:porta"
 npm run dev
@@ -105,30 +105,30 @@ npm run dev
 # No Linux/Mac
 export VITE_API_URL="http://seu-backend:porta"
 npm run dev
+```
 
+Ou crie um arquivo `.env.local` na pasta `frontend`:
 
-Ou crie um arquivo .env.local na pasta frontend:
-
-env
+```env
 VITE_API_URL=http://localhost:8082
-
+```
 
 #### 3. Iniciar o Servidor de Desenvolvimento
 
-bash
+```bash
 # No diretório frontend
 npm run dev
+```
 
-
-A aplicação estará disponível em http://localhost:5173
+A aplicação estará disponível em `http://localhost:5173`
 
 #### 4. Build para Produção
 
-bash
+```bash
 npm run build
+```
 
-
-Os arquivos otimizados serão gerados na pasta dist/
+Os arquivos otimizados serão gerados na pasta `dist/`
 
 ---
 
@@ -236,3 +236,9 @@ O projeto utiliza as seguintes bibliotecas adicionais no ecossistema Vue:
 - O CORS está configurado para permitir requisições do frontend
 - O banco de dados é automaticamente criado/atualizado com base nas entidades JPA (DDL automático)
 - O projeto suporta live reload tanto no backend (via Spring DevTools) quanto no frontend (via Vite)
+
+## Considerações Finais
+
+Este projeto foi desenvolvido com o objetivo de aplicar conceitos de desenvolvimento full stack, incluindo arquitetura RESTful, integração frontend-backend, persistência de dados, componentização e boas práticas de desenvolvimento de software.
+---
+
