@@ -1,6 +1,5 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import Cabecalho from '../components/Cabecalho.vue'
 import BarraLateral from '../components/BarraLateral.vue'
 import { listarCategorias } from '../services/categoriaService.js'
 import { listarLivros, listarEditoras } from '../services/livroService.js'
@@ -157,7 +156,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <Cabecalho />
     <BarraLateral
         v-model:busca="busca"
         v-model:categoria-id="categoriaId"

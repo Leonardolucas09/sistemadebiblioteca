@@ -2,12 +2,10 @@
 import { ref, computed } from "vue";
 import TabelaLivros from "./Pages/TabelaLivros.vue";
 import Emprestimos from "./Pages/Emprestimos.vue";
-import MeuPerfil from "./Pages/MeuPerfil.vue";
 
 const routes = {
   "": TabelaLivros,
   "emprestimos": Emprestimos,
-  "meuPerfil": MeuPerfil
 }
 
   const currentRoute = ref("");
