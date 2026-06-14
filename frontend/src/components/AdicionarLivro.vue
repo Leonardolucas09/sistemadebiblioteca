@@ -13,7 +13,7 @@
 
 <template>
     <div>
-        <button class="bg-blue-500 text-white px-4 rounded-md text-lg font-bold cursor-pointer h-14" 
+        <button class=" bg-blue-600 text-white hover:bg-blue-700 transition px-4 rounded-md text-lg font-bold cursor-pointer h-14" 
             @click="abrirModal"
         >
             Adicionar Livro

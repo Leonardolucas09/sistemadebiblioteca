@@ -122,7 +122,7 @@ onMounted(() => {
 
 <template>
     <div v-if="showModal" class="fixed inset-0 flex items-center justify-center z-50">
-        <div class="bg-slate-950 p-8 rounded-lg w-1/2">
+        <div class="bg-gray-900 p-8 rounded-lg w-1/2">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl text-white font-bold">
                     Adicionar Livro
