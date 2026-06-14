@@ -2,14 +2,45 @@
 import Filtros from './Filtros.vue';
 import InputBuscarLivros from './InputBuscarLivros.vue';
 import AdicionarLivro from './AdicionarLivro.vue';
-import { ref, computed } from "vue";
 
 defineProps({
     isOpen: Boolean,
-    isUsable: Boolean
+    isUsable: Boolean,
+    mostrarAdicionar: {
+        type: Boolean,
+        default: true,
+    },
+    busca: {
+        type: String,
+        default: '',
+    },
+    categoriaId: {
+        type: [String, Number],
+        default: '',
+    },
+    editora: {
+        type: String,
+        default: '',
+    },
+    categorias: {
+        type: Array,
+        default: () => [],
+    },
+    editoras: {
+        type: Array,
+        default: () => [],
+    },
 });
 
-const emit = defineEmits(['toggle', 'close', 'navigate']);
+const emit = defineEmits([
+    'toggle',
+    'close',
+    'navigate',
+    'livro-cadastrado',
+    'update:busca',
+    'update:categoriaId',
+    'update:editora',
+]);
 
 const handleToggle = () => {
     emit('toggle');
@@ -44,9 +75,21 @@ const goToMeuPerfil = () => {
             </svg>
         </div>
         <div class="flex items-center gap-12">
-            <AdicionarLivro v-if="isUsable"/>
-            <InputBuscarLivros v-if="isUsable"/>
-            <Filtros v-if="isUsable"/>
+            <AdicionarLivro v-if="isUsable && mostrarAdicionar" @livro-cadastrado="emit('livro-cadastrado')"/>
+            <InputBuscarLivros
+                v-if="isUsable"
+                :model-value="busca"
+                @update:model-value="emit('update:busca', $event)"
+            />
+            <Filtros
+                v-if="isUsable"
+                :categoria-id="categoriaId"
+                :editora="editora"
+                :categorias="categorias"
+                :editoras="editoras"
+                @update:categoria-id="emit('update:categoriaId', $event)"
+                @update:editora="emit('update:editora', $event)"
+            />
         </div>
     </div>
 
@@ -107,16 +150,6 @@ const goToMeuPerfil = () => {
                     </a>
                 </li>
             </ul>
-            <a href="" class="fundo">
-                <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M14 7.63636L14 4.5C14 4.22386 13.7761 4 13.5 4L4.5 4C4.22386 4 4 4.22386 4 4.5L4 19.5C4 19.7761 4.22386 20 4.5 20L13.5 20C13.7761 20 14 19.7761 14 19.5L14 16.3636"
-                        stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M10 12L21 12M21 12L18.0004 8.5M21 12L18 15.5" stroke="#FFF" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <p>Sair</p>
-            </a>
         </nav>
     </div>
 </template>

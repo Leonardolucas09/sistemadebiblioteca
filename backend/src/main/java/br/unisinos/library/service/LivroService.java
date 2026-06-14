@@ -3,8 +3,6 @@ package br.unisinos.library.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.unisinos.library.dto.LivroRequestDTO;
@@ -16,7 +14,6 @@ import br.unisinos.library.exception.RecursoNaoEncontradoException;
 import br.unisinos.library.exception.RegraLibraryException;
 import br.unisinos.library.repository.AutorRepository;
 import br.unisinos.library.repository.CategoriaRepository;
-import br.unisinos.library.repository.LivroPorAutorProjection;
 import br.unisinos.library.repository.LivroPorCategoriaProjection;
 import br.unisinos.library.repository.LivroRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +28,13 @@ public class LivroService {
 
     public LivroResponseDTO salvar (LivroRequestDTO livroDTO) {
         Categoria categoria = buscarCategoria(livroDTO.categoriaId());
-        Autor autor = buscarAutor(livroDTO.autorNome());
+        Autor autor = buscarOuCriarAutor(livroDTO);
         Livro livro = Livro.builder()
                         .titulo(livroDTO.titulo())
                         .editora(livroDTO.editora())
                         .numeroPaginas(livroDTO.numeroPaginas())
                         .isbn(livroDTO.isbn())
+                        .nomeAutor(autor.getNome())
                         .autor(autor)
                         .categoria(categoria)
                         .build();
@@ -64,6 +62,7 @@ public class LivroService {
         livro.setEditora(livroAtualizado.getEditora());
         livro.setNumeroPaginas(livroAtualizado.getNumeroPaginas());
         livro.setIsbn(livroAtualizado.getIsbn());
+        livro.setNomeAutor(livroAtualizado.getNomeAutor());
 
         return livroRepository.save(livro);
     }
@@ -75,16 +74,34 @@ public class LivroService {
         return categoriaRepository.findById(categoriaId).orElseThrow(() -> new RecursoNaoEncontradoException("Categoria não encontrada com o id: " + categoriaId));
     }
 
-    private Autor buscarAutor(String autorNome) {
-        if (autorNome == null || autorNome.isBlank()) {
+    private Autor buscarAutor(Long autorId) {
+        if (autorId == null) {
             throw new RegraLibraryException("O autor do exemplar é obrigatório"); 
         }
-        return autorRepository.findByNome(autorNome).orElseThrow(() -> new RecursoNaoEncontradoException("Autor não encontrado com o nome: " + autorNome));
+        return autorRepository.findById(autorId).orElseThrow(() -> new RecursoNaoEncontradoException("Autor não encontrado com o nome: " + autorId));
     }
 
 
-    public List<Livro> listarTodos() {
-        return livroRepository.findAll();
+    private Autor buscarOuCriarAutor(LivroRequestDTO livroDTO) {
+        if (livroDTO.autorId() != null) {
+            return buscarAutor(livroDTO.autorId());
+        }
+
+        if (livroDTO.autorNome() == null || livroDTO.autorNome().isBlank()) {
+            throw new RegraLibraryException("O autor do exemplar e obrigatorio");
+        }
+
+        String nomeAutor = livroDTO.autorNome().trim();
+
+        return autorRepository.findByNome(nomeAutor)
+            .orElseGet(() -> autorRepository.save(Autor.builder().nome(nomeAutor).build()));
+    }
+
+    public List<LivroResponseDTO> listarTodos() {
+        return livroRepository.findAll()
+        .stream()
+        .map(this::toResponseDTO)
+        .toList();
     }
 
     public Optional<Livro> buscarPorId(Long id) {
@@ -114,9 +131,5 @@ public class LivroService {
     // public List<Livro> buscarPorAutor(String nomeAutor) {
     //     return livroRepository.findByNomeAutorContainingIgnoreCase(nomeAutor);
     // }
-
-    public List<Livro> buscarPorAutor(String nomeAutor) {
-        return livroRepository.findByNomeAutorContainingIgnoreCase(nomeAutor);
-    }
 
 }

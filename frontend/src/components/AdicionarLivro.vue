@@ -1,6 +1,8 @@
 <script setup>
     import { ref } from 'vue';
     import ModalAdicionarLivro from '../Models/ModalAdicionarLivro.vue';
+
+    const emit = defineEmits(['livro-cadastrado'])
     
     const modalRef = ref(null);
     
@@ -16,6 +18,6 @@
         >
             Adicionar Livro
         </button>
-        <ModalAdicionarLivro ref="modalRef" />
+        <ModalAdicionarLivro ref="modalRef" @livro-cadastrado="emit('livro-cadastrado')" />
     </div>
 </template>

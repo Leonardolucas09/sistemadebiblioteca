@@ -1,15 +1,5 @@
 package br.unisinos.library.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import br.unisinos.library.dto.AutorRequestDTO;
-import br.unisinos.library.dto.AutorResponseDTO;
-import br.unisinos.library.entity.Autor;
-import br.unisinos.library.service.AutorService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.unisinos.library.dto.AutorRequestDTO;
+import br.unisinos.library.dto.AutorResponseDTO;
+import br.unisinos.library.service.AutorService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 
 @RestController
@@ -35,8 +33,8 @@ public class AutorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Autor>> listarTodos() {
-        return ResponseEntity.ok(autorService.listarTodas());
+    public ResponseEntity<List<AutorResponseDTO>> listarTodos() {
+        return ResponseEntity.ok(autorService.listarTodos());
     }
     
     @GetMapping("/{id}")

@@ -32,8 +32,11 @@ public class CategoriaService {
             categoria.getNome());
     }
 
-    public List<Categoria> listarTodas() {
-        return categoriaRepository.findAll();
+    public List<CategoriaResponseDTO> listarTodas() {
+        return categoriaRepository.findAll()
+            .stream()
+            .map(this::toResponseDTO)
+            .toList();
     }
 
     public Optional <Categoria> buscarPorId(Long id) {

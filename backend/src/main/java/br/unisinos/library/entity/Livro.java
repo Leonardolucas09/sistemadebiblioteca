@@ -1,6 +1,9 @@
 package br.unisinos.library.entity;
 
+import java.util.ArrayList;
 import java.util.List;
+
+// import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -11,9 +14,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
+// import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,6 +65,9 @@ public class Livro {
     //código universal do livro, alguns livros (especialmente os mais antigos) não fornecem nem o código de barras nem o número redigido
     @Column(nullable = true, length = 13)
     private Long isbn;
+
+    @Column(name = "nome_autor", nullable = false, length = 100)
+    private String nomeAutor;
 
     //chave estrangeira da categoria
     @ManyToOne

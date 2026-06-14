@@ -3,8 +3,6 @@ package br.unisinos.library.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.unisinos.library.dto.LivroRequestDTO;
 import br.unisinos.library.dto.LivroResponseDTO;
 import br.unisinos.library.entity.Livro;
-//import br.unisinos.library.repository.LivroPorAutorProjection;
 import br.unisinos.library.repository.LivroPorCategoriaProjection;
 import br.unisinos.library.service.LivroService;
 import jakarta.validation.Valid;
@@ -48,7 +45,7 @@ public class LivroController {
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<Livro>> listarTodos() {
+    public ResponseEntity<List<LivroResponseDTO>> listarTodos() {
         return ResponseEntity.ok(livroService.listarTodos());
     }
 

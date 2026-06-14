@@ -40,7 +40,7 @@ public class CategoriaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Categoria>> listarTodos() {
+    public ResponseEntity<List<CategoriaResponseDTO>> listarTodos() {
         return ResponseEntity.ok(categoriaService.listarTodas());
     }
 

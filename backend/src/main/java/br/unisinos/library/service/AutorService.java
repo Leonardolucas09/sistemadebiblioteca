@@ -32,8 +32,11 @@ public class AutorService {
             autor.getNome());
     }
 
-    public List<Autor> listarTodos() {
-        return autorRepository.findAll();
+    public List<AutorResponseDTO> listarTodos() {
+        return autorRepository.findAll()
+        .stream()
+        .map(this::toResponseDTO)
+        .toList();
     }
 
     public Optional <Autor> buscarPorId(Long id) {
@@ -53,10 +56,6 @@ public class AutorService {
     public void excluir (Long id) {
         Autor autor = buscarPorId(id).orElseThrow(() -> new RecursoNaoEncontradoException("Autor não encontrado pelo id " + id));
         autorRepository.delete(autor);
-    }
-
-    public List<Autor> listarTodas() {
-        return autorRepository.findAll();
     }
 
 }
