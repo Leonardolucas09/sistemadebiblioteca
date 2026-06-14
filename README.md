@@ -23,7 +23,6 @@ Entre as principais funcionalidades do sistema estão:
 -  *Gestão de Categorias*: organizar livros por categoria
 -  *Gestão de Autores*: registrar e manter autores
 -  *Controle de Empréstimos*: registrar empréstimos e devoluções
--  *Perfil de Usuário*: gerenciamento de informações do usuário e histórico
 
 A comunicação entre frontend e backend ocorre através de uma *API RESTful*, utilizando requisições HTTP (GET, POST, PUT, DELETE) para manipulação dos dados.
 ---
@@ -41,17 +40,7 @@ Antes de executar o projeto, certifique-se de ter instalado:
 
 ### Backend
 
-#### 1. Configurar o Banco de Dados
-
-```bash
-# Acesse o PostgreSQL
-psql -U postgres
-
-# Crie o banco de dados (ou use o padrão 'postgres')
-CREATE DATABASE biblioteca;
-```
-
-#### 2. Executar o Backend
+#### 1. Executar o Backend
 
 ```bash
 # Navegue até a pasta do backend
@@ -140,12 +129,10 @@ O frontend implementa um sistema de roteamento simples com as seguintes telas:
 |------|------|-----------|
 | / ou "" | *Tabela de Livros* | Exibe a lista de todos os livros do acervo com opções de filtro e busca |
 | /emprestimos | *Empréstimos* | Gerencia empréstimos e devoluções de livros, exibindo histórico e status dos empréstimos |
-| /meuPerfil | *Meu Perfil* | Exibe informações do usuário e histórico de seus empréstimos |
 
 ### Componentes Principais
 
 - *BarraLateral*: Menu lateral de navegação entre as telas
-- *Cabecalho*: Cabeçalho da aplicação com informações globais
 - *Filtros*: Componente de filtro para buscar livros por categoria ou editora
 - *InputBuscarLivros*: Campo de busca de livros por título, autor ou o isbn do livro
 - *AdicionarLivro*: Modal para adicionar novos livros ao acervo
@@ -174,9 +161,8 @@ O projeto utiliza as seguintes bibliotecas adicionais no ecossistema Vue:
 ## 🔌 Endpoints da API (Backend)
 
 ### Livros
-- GET /api/livros - Listar todos os livros com filtro de cópias disponíveis
 - GET /api/livros/{id} - Obter detalhes de um livro específico
-- GET /api/livros/todos - Listar todos os livros (incluindo sem cópias)
+- GET /api/livros/todos - Listar todos os livros
 - GET /api/livros/relatorio/por-categoria - Relatório de livros por categoria
 - POST /api/livros - Criar novo livro
 - PUT /api/livros/{id} - Atualizar informações do livro
