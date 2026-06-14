@@ -43,6 +43,12 @@ public class CategoriaService {
         return categoriaRepository.findById(id);
     }
 
+    public CategoriaResponseDTO atualizar (Long id, CategoriaRequestDTO categoriaDTO) {
+        Categoria categoria = buscarPorId(id).orElseThrow(() -> new RecursoNaoEncontradoException("Categoria não encontrada pelo id " + id));
+        categoria.setNome(categoriaDTO.nome());
+        return toResponseDTO(categoriaRepository.save(categoria));
+    }
+
     public Categoria atualizar (Long id, Categoria categoriaAtualizada) {
         Categoria categoria = buscarPorId(id).orElseThrow(() -> new RecursoNaoEncontradoException("Categoria não encontrada pelo id " + id));
         categoria.setNome(categoriaAtualizada.getNome());
