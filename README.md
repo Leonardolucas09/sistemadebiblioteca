@@ -211,9 +211,7 @@ O projeto utiliza as seguintes bibliotecas adicionais no ecossistema Vue:
 
 ---
 
-## Apresentação em Vídeo
-
-[Insira aqui o link do vídeo de apresentação do projeto]
+## [Apresentação em Vídeo](https://youtu.be/ahVCcjiALtk)
 
 ---
 
