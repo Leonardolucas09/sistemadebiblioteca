@@ -38,12 +38,12 @@ public class UsuarioService {
             usuario.getNome());
     }
 
-    public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
+    public UsuarioResponseDTO atualizar(Long id, UsuarioRequestDTO usuarioRequestDTO) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RegraLibraryException("Usuário não encontrado"));
         
-        usuario.setNome(usuarioAtualizado.getNome());
+        usuario.setNome(usuarioRequestDTO.nome());
 
-        return usuarioRepository.save(usuario);
+        return toResponseDTO(usuarioRepository.save(usuario));
     }
 
     public Optional<Usuario> buscarPorId(Long id) {
